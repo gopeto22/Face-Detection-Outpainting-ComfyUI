@@ -1,0 +1,474 @@
+{
+  "9": {
+    "inputs": {
+      "text": "A high-quality, clear, and well-composed portrait of a person with a balanced and natural background, free from any distortions or unnecessary artifacts. The face is well-defined, with preserved facial features and expressions, regardless of head position or angle. The image maintains a natural and even skin tone, with no distortions or artifacts. The skin tone is even and natural, and the lighting is consistent, avoiding any harsh shadows or overexposure. The hair is neatly styled, any facial hair is accurately represented and any accessories like glasses or hats are naturally integrated without obscuring the face. The outpainting extends the background naturally, matching the original environment and blending seamlessly without introducing new objects or distortions. The entire image is sharp, with a focus on maintaining the integrity of both the subject and the background, ensuring no artificial elements are added. The otpainted areas are blend perfectly with the existing image, creating a cohesive and visually pleasing composition. Add a heavy lens bokeh",
+      "clip": [
+        "19",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "10": {
+    "inputs": {
+      "text": "A low-quality, distorted image with visible cluttered or inconsistent artifacts and unnatural elements in both the face and background. Filled with unnecessary artifacts and distortions. The face is poorly defined, with unnatural skin tones and lighting that creates harsh shadows, overexposed areas, or underexposed sections. The skin tone is uneven, with noticeable blemishes or color distortions. The hair is messy, any facial hair appears distorted or unclear, and any accessories like glasses or hats are poorly integrated, often obscuring key facial features. The outpainted areas introduce distracting artifacts or mismatched elements that do not blend with the original image, disrupting the overall composition. The overall image quality is degraded, with visible noise, blurriness, and artificial elements that detract from the natural appearance of the subject and the scene. The background contains visible noise or artifacts, making it distracting and inconsistent with the subject.",
+      "clip": [
+        "19",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "14": {
+    "inputs": {
+      "samples": [
+        "40",
+        0
+      ],
+      "vae": [
+        "19",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "19": {
+    "inputs": {
+      "ckpt_name": "juggernautXL_v8Rundiffusion.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "33": {
+    "inputs": {
+      "image": "001051.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "35": {
+    "inputs": {
+      "head": "fooocus_inpaint_head.pth",
+      "patch": "inpaint_v26.fooocus.patch"
+    },
+    "class_type": "INPAINT_LoadFooocusInpaint",
+    "_meta": {
+      "title": "Load Fooocus Inpaint"
+    }
+  },
+  "36": {
+    "inputs": {
+      "model": [
+        "19",
+        0
+      ],
+      "patch": [
+        "35",
+        0
+      ],
+      "latent": [
+        "44",
+        2
+      ]
+    },
+    "class_type": "INPAINT_ApplyFooocusInpaint",
+    "_meta": {
+      "title": "Apply Fooocus Inpaint"
+    }
+  },
+  "40": {
+    "inputs": {
+      "seed": 691503271199472,
+      "steps": 28,
+      "cfg": 6,
+      "sampler_name": "dpmpp_2m_sde_gpu",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "36",
+        0
+      ],
+      "positive": [
+        "44",
+        0
+      ],
+      "negative": [
+        "44",
+        1
+      ],
+      "latent_image": [
+        "44",
+        3
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "44": {
+    "inputs": {
+      "positive": [
+        "9",
+        0
+      ],
+      "negative": [
+        "10",
+        0
+      ],
+      "vae": [
+        "19",
+        2
+      ],
+      "pixels": [
+        "116",
+        0
+      ],
+      "mask": [
+        "67",
+        1
+      ]
+    },
+    "class_type": "INPAINT_VAEEncodeInpaintConditioning",
+    "_meta": {
+      "title": "VAE Encode & Inpaint Conditioning"
+    }
+  },
+  "65": {
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "destination": [
+        "67",
+        0
+      ],
+      "source": [
+        "14",
+        0
+      ],
+      "mask": [
+        "67",
+        1
+      ]
+    },
+    "class_type": "ImageCompositeMasked",
+    "_meta": {
+      "title": "ImageCompositeMasked"
+    }
+  },
+  "67": {
+    "inputs": {
+      "left": 248,
+      "top": 248,
+      "right": 248,
+      "bottom": 248,
+      "feathering": 40,
+      "image": [
+        "245",
+        0
+      ]
+    },
+    "class_type": "ImagePadForOutpaint",
+    "_meta": {
+      "title": "Pad Image for Outpainting"
+    }
+  },
+  "68": {
+    "inputs": {
+      "fill": "navier-stokes",
+      "falloff": 0,
+      "image": [
+        "67",
+        0
+      ],
+      "mask": [
+        "67",
+        1
+      ]
+    },
+    "class_type": "INPAINT_MaskedFill",
+    "_meta": {
+      "title": "Fill Masked Area"
+    }
+  },
+  "75": {
+    "inputs": {
+      "points_store": "[{\"x\":184.98476542162578,\"y\":402.61390121177374},{\"x\":339.50145183263083,\"y\":137.1063555477932},{\"x\":883.5742913080007,\"y\":150.1641036952021},{\"x\":1040.2672690769073,\"y\":596.3038320650054},{\"x\":818.2855505709564,\"y\":977.1548196977644},{\"x\":341.6777431905323,\"y\":981.5074024135673},{\"x\":182.8084740637243,\"y\":813.9329678551534},{\"x\":184.98476542162578,\"y\":417.8479407170841}]",
+      "coordinates": "[{\"x\":184.98477172851562,\"y\":402.6138916015625},{\"x\":184.98419189453125,\"y\":417.8542175292969}]",
+      "mask_width": 1200,
+      "mask_height": 1350,
+      "points_to_sample": 2,
+      "sampling_method": "path",
+      "interpolation": "cardinal",
+      "tension": 0.5,
+      "repeat_output": 1,
+      "float_output_type": "list",
+      "min_value": 0,
+      "max_value": 1,
+      "New spline": null
+    },
+    "class_type": "SplineEditor",
+    "_meta": {
+      "title": "Spline Editor"
+    }
+  },
+  "76": {
+    "inputs": {
+      "shape": "circle",
+      "coordinates": [
+        "75",
+        1
+      ],
+      "frame_width": 1200,
+      "frame_height": 1350,
+      "shape_width": 360,
+      "shape_height": 360
+    },
+    "class_type": "CreateShapeMaskOnPath",
+    "_meta": {
+      "title": "Create Shape Mask On Path"
+    }
+  },
+  "77": {
+    "inputs": {
+      "expand": 0,
+      "incremental_expandrate": 0,
+      "tapered_corners": true,
+      "flip_input": false,
+      "blur_radius": 50,
+      "lerp_alpha": 1,
+      "decay_factor": 1,
+      "fill_holes": false
+    },
+    "class_type": "GrowMaskWithBlur",
+    "_meta": {
+      "title": "Grow Mask With Blur"
+    }
+  },
+  "78": {
+    "inputs": {
+      "min": 0,
+      "max": 0.7000000000000001,
+      "mask": [
+        "77",
+        0
+      ]
+    },
+    "class_type": "RemapMaskRange",
+    "_meta": {
+      "title": "Remap Mask Range"
+    }
+  },
+  "116": {
+    "inputs": {
+      "blur": 65,
+      "falloff": 0,
+      "image": [
+        "68",
+        0
+      ],
+      "mask": [
+        "67",
+        1
+      ]
+    },
+    "class_type": "INPAINT_MaskedBlur",
+    "_meta": {
+      "title": "Blur Masked Area"
+    }
+  },
+  "128": {
+    "inputs": {
+      "shape": "circle",
+      "coordinates": [
+        "75",
+        1
+      ],
+      "frame_width": 1200,
+      "frame_height": 1350,
+      "shape_width": 360,
+      "shape_height": 360
+    },
+    "class_type": "CreateShapeMaskOnPath",
+    "_meta": {
+      "title": "Create Shape Mask On Path"
+    }
+  },
+  "130": {
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "operation": "multiply",
+      "destination": [
+        "128",
+        1
+      ]
+    },
+    "class_type": "MaskComposite",
+    "_meta": {
+      "title": "MaskComposite"
+    }
+  },
+  "245": {
+    "inputs": {
+      "facedetection": "retinaface_resnet50",
+      "image": [
+        "308",
+        0
+      ]
+    },
+    "class_type": "CropFace",
+    "_meta": {
+      "title": "CropFace"
+    }
+  },
+  "246": {
+    "inputs": {
+      "images": [
+        "288",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "261": {
+    "inputs": {
+      "images": [
+        "303",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "267": {
+    "inputs": {
+      "text": "title",
+      "width": 600,
+      "height": 512,
+      "bbox_width": 128,
+      "bbox_height": 128
+    },
+    "class_type": "PlotCoordinates",
+    "_meta": {
+      "title": "Plot Coordinates"
+    }
+  },
+  "273": {
+    "inputs": {
+      "model_path": "/home/georgi/Downloads/face_detection_yunet_2023mar.onnx"
+    },
+    "class_type": "GENAI_LoadYuNetModel",
+    "_meta": {
+      "title": "Load YuNet Model"
+    }
+  },
+  "288": {
+    "inputs": {
+      "thickness": 2,
+      "image": [
+        "33",
+        0
+      ],
+      "face_detections": [
+        "300",
+        0
+      ]
+    },
+    "class_type": "GENAI_VisualizeYuNetLandmarks",
+    "_meta": {
+      "title": "Visualize YuNet Landmarks"
+    }
+  },
+  "300": {
+    "inputs": {
+      "scale": 1,
+      "yunet_model": [
+        "273",
+        0
+      ],
+      "image": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "GENAI_DetectFacesYuNet",
+    "_meta": {
+      "title": "Detect Faces (YuNet)"
+    }
+  },
+  "303": {
+    "inputs": {
+      "image": [
+        "33",
+        0
+      ],
+      "bounding_box": [
+        "288",
+        1
+      ]
+    },
+    "class_type": "GENAI_CropImageByBoundingBox",
+    "_meta": {
+      "title": "Crop Image by Bounding Box"
+    }
+  },
+  "305": {
+    "inputs": {
+      "images": [
+        "65",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "307": {
+    "inputs": {
+      "filename_prefix": "grayscale"
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "308": {
+    "inputs": {
+      "width": 1080,
+      "height": 1352,
+      "upscale_method": "nearest-exact",
+      "keep_proportion": false,
+      "divisible_by": 2,
+      "image": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "ImageResizeKJ",
+    "_meta": {
+      "title": "Resize Image"
+    }
+  }
+}
